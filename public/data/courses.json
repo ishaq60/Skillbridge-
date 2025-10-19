@@ -1,0 +1,306 @@
+{
+  "courses": [
+    {
+      "course_id": 1,
+      "title": "Modern Web Design Bootcamp",
+      "category": "Web Design",
+      "price": 49.99,
+      "rating": 4.8,
+      "total_reviews": 230,
+      "total_students": 1250,
+      "duration": "6h 30m",
+      "thumbnail": "/web-development-coding.png",
+      "description": "Learn modern web design using Figma, HTML, CSS, and responsive techniques. Perfect for beginners and professionals looking to enhance their design skills.",
+      "instructor": {
+        "name": "John Doe",
+        "profile_image": "/professional-male-avatar.png",
+        "bio": "UI/UX designer with 8+ years experience, teaching design systems and accessibility.",
+        "expertise": "Web Design & UI/UX"
+      },
+      "videos": [
+        {
+          "video_id": 101,
+          "title": "Welcome to the Course",
+          "description": "Introduction and overview of what you'll learn.",
+          "video_url": "/videos/intro.mp4",
+          "thumbnail": "/ui-ux-design-interface.png",
+          "duration": "3m 12s",
+          "is_free": true
+        },
+        {
+          "video_id": 102,
+          "title": "Setting up your Design Environment",
+          "description": "Install tools and prepare workspace.",
+          "video_url": "/videos/setup.mp4",
+          "thumbnail": "/react-nextjs-javascript.jpg",
+          "duration": "8m 45s",
+          "is_free": false
+        },
+        {
+          "video_id": 103,
+          "title": "Typography in Web Design",
+          "description": "How to use fonts effectively in UI.",
+          "video_url": "/videos/typography.mp4",
+          "thumbnail": "/python-code.png",
+          "duration": "10m 20s",
+          "is_free": false
+        },
+        {
+          "video_id": 104,
+          "title": "Color Theory for Designers",
+          "description": "Understanding color psychology and application.",
+          "video_url": "/videos/color.mp4",
+          "thumbnail": "/data-science-machine-learning.jpg",
+          "duration": "12m 30s",
+          "is_free": false
+        },
+        {
+          "video_id": 105,
+          "title": "Responsive Design Principles",
+          "description": "Creating designs that work on all devices.",
+          "video_url": "/videos/responsive.mp4",
+          "thumbnail": "/ios-swift-mobile-app.jpg",
+          "duration": "15m 20s",
+          "is_free": false
+        }
+      ]
+    },
+    {
+      "course_id": 2,
+      "title": "React & Next.js Complete Guide",
+      "category": "Web Development",
+      "price": 59.99,
+      "rating": 4.9,
+      "total_reviews": 450,
+      "total_students": 2800,
+      "duration": "12h 45m",
+      "thumbnail": "/react-nextjs-javascript.jpg",
+      "description": "Master React and Next.js from scratch. Build modern, scalable web applications with the latest features and best practices.",
+      "instructor": {
+        "name": "Sarah Johnson",
+        "profile_image": "/professional-female-avatar.png",
+        "bio": "Full-stack developer with 10+ years experience in React and Next.js. Former tech lead at major tech companies.",
+        "expertise": "React & Next.js Expert"
+      },
+      "videos": [
+        {
+          "video_id": 201,
+          "title": "Introduction to React",
+          "description": "Understanding React fundamentals and ecosystem.",
+          "video_url": "/videos/react-intro.mp4",
+          "thumbnail": "/react-nextjs-javascript.jpg",
+          "duration": "5m 30s",
+          "is_free": true
+        },
+        {
+          "video_id": 202,
+          "title": "Components and Props",
+          "description": "Building reusable components with props.",
+          "video_url": "/videos/components.mp4",
+          "thumbnail": "/react-nextjs-javascript.jpg",
+          "duration": "12m 15s",
+          "is_free": false
+        },
+        {
+          "video_id": 203,
+          "title": "State Management with Hooks",
+          "description": "Using useState and useEffect hooks.",
+          "video_url": "/videos/hooks.mp4",
+          "thumbnail": "/react-nextjs-javascript.jpg",
+          "duration": "18m 40s",
+          "is_free": false
+        }
+      ]
+    },
+    {
+      "course_id": 3,
+      "title": "Data Science with Python",
+      "category": "Data Science",
+      "price": 69.99,
+      "rating": 4.7,
+      "total_reviews": 320,
+      "total_students": 1850,
+      "duration": "15h 20m",
+      "thumbnail": "/data-science-machine-learning.jpg",
+      "description": "Learn data analysis, visualization, and machine learning with Python. Perfect for aspiring data scientists and analysts.",
+      "instructor": {
+        "name": "Michael Chen",
+        "profile_image": "/professional-asian-male-avatar.jpg",
+        "bio": "Data scientist with PhD in Machine Learning. Published researcher and industry consultant.",
+        "expertise": "Data Science & ML"
+      },
+      "videos": [
+        {
+          "video_id": 301,
+          "title": "Python for Data Science",
+          "description": "Setting up Python environment for data analysis.",
+          "video_url": "/videos/python-ds.mp4",
+          "thumbnail": "/python-code.png",
+          "duration": "6m 20s",
+          "is_free": true
+        },
+        {
+          "video_id": 302,
+          "title": "NumPy and Pandas Basics",
+          "description": "Working with arrays and dataframes.",
+          "video_url": "/videos/numpy-pandas.mp4",
+          "thumbnail": "/data-science-machine-learning.jpg",
+          "duration": "15m 30s",
+          "is_free": false
+        }
+      ]
+    },
+    {
+      "course_id": 4,
+      "title": "iOS App Development with Swift",
+      "category": "Mobile Development",
+      "price": 54.99,
+      "rating": 4.6,
+      "total_reviews": 180,
+      "total_students": 950,
+      "duration": "10h 15m",
+      "thumbnail": "/ios-swift-mobile-app.jpg",
+      "description": "Build native iOS apps with Swift and SwiftUI. Learn from basics to publishing your app on the App Store.",
+      "instructor": {
+        "name": "Emily Rodriguez",
+        "profile_image": "/professional-female-avatar.png",
+        "bio": "iOS developer with 7+ years experience. Built apps with millions of downloads.",
+        "expertise": "iOS Development"
+      },
+      "videos": [
+        {
+          "video_id": 401,
+          "title": "Introduction to Swift",
+          "description": "Swift programming language fundamentals.",
+          "video_url": "/videos/swift-intro.mp4",
+          "thumbnail": "/ios-swift-mobile-app.jpg",
+          "duration": "7m 10s",
+          "is_free": true
+        },
+        {
+          "video_id": 402,
+          "title": "SwiftUI Basics",
+          "description": "Building user interfaces with SwiftUI.",
+          "video_url": "/videos/swiftui.mp4",
+          "thumbnail": "/ios-swift-mobile-app.jpg",
+          "duration": "14m 25s",
+          "is_free": false
+        }
+      ]
+    },
+    {
+      "course_id": 5,
+      "title": "UI/UX Design Masterclass",
+      "category": "Design",
+      "price": 44.99,
+      "rating": 4.9,
+      "total_reviews": 510,
+      "total_students": 3200,
+      "duration": "8h 40m",
+      "thumbnail": "/ui-ux-design-interface.png",
+      "description": "Master UI/UX design principles, user research, wireframing, and prototyping. Create beautiful and functional designs.",
+      "instructor": {
+        "name": "David Kim",
+        "profile_image": "/professional-male-avatar.png",
+        "bio": "Senior UX designer at Fortune 500 company. Award-winning designer with 12+ years experience.",
+        "expertise": "UI/UX Design"
+      },
+      "videos": [
+        {
+          "video_id": 501,
+          "title": "UX Design Fundamentals",
+          "description": "Understanding user experience principles.",
+          "video_url": "/videos/ux-fundamentals.mp4",
+          "thumbnail": "/ui-ux-design-interface.png",
+          "duration": "5m 45s",
+          "is_free": true
+        },
+        {
+          "video_id": 502,
+          "title": "User Research Methods",
+          "description": "Conducting effective user research.",
+          "video_url": "/videos/user-research.mp4",
+          "thumbnail": "/ui-ux-design-interface.png",
+          "duration": "11m 30s",
+          "is_free": false
+        }
+      ]
+    },
+    {
+      "course_id": 6,
+      "title": "Digital Marketing Essentials",
+      "category": "Marketing",
+      "price": 39.99,
+      "rating": 4.5,
+      "total_reviews": 290,
+      "total_students": 1650,
+      "duration": "7h 30m",
+      "thumbnail": "/digital-marketing-business.jpg",
+      "description": "Learn SEO, social media marketing, content strategy, and analytics. Grow your business with digital marketing.",
+      "instructor": {
+        "name": "Lisa Anderson",
+        "profile_image": "/professional-female-avatar.png",
+        "bio": "Digital marketing strategist with 9+ years experience. Helped 100+ businesses grow online.",
+        "expertise": "Digital Marketing"
+      },
+      "videos": [
+        {
+          "video_id": 601,
+          "title": "Digital Marketing Overview",
+          "description": "Introduction to digital marketing channels.",
+          "video_url": "/videos/marketing-intro.mp4",
+          "thumbnail": "/digital-marketing-business.jpg",
+          "duration": "4m 50s",
+          "is_free": true
+        },
+        {
+          "video_id": 602,
+          "title": "SEO Fundamentals",
+          "description": "Search engine optimization basics.",
+          "video_url": "/videos/seo.mp4",
+          "thumbnail": "/digital-marketing-business.jpg",
+          "duration": "13m 20s",
+          "is_free": false
+        }
+      ]
+    },
+    {
+      "course_id": 7,
+      "title": "Digital Marketing Essentials",
+      "category": "Marketing",
+      "price": 39.99,
+      "rating": 4.5,
+      "total_reviews": 290,
+      "total_students": 1650,
+      "duration": "7h 30m",
+      "thumbnail": "/digital-marketing-business.jpg",
+      "description": "Learn SEO, social media marketing, content strategy, and analytics. Grow your business with digital marketing.",
+      "instructor": {
+        "name": "Lisa Anderson",
+        "profile_image": "/professional-female-avatar.png",
+        "bio": "Digital marketing strategist with 9+ years experience. Helped 100+ businesses grow online.",
+        "expertise": "Digital Marketing"
+      },
+      "videos": [
+        {
+          "video_id": 701,
+          "title": "Digital Marketing Overview",
+          "description": "Introduction to digital marketing channels.",
+          "video_url": "/videos/marketing-intro.mp4",
+          "thumbnail": "/digital-marketing-business.jpg",
+          "duration": "4m 50s",
+          "is_free": true
+        },
+        {
+          "video_id": 702,
+          "title": "SEO Fundamentals",
+          "description": "Search engine optimization basics.",
+          "video_url": "/videos/seo.mp4",
+          "thumbnail": "/digital-marketing-business.jpg",
+          "duration": "13m 20s",
+          "is_free": false
+        }
+      ]
+    }
+  ]
+}

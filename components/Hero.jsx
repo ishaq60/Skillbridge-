@@ -38,13 +38,14 @@ const Hero = () => {
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
-              <Button
+              <Link 
+              href={"/courses"}
                 size="lg"
                 variant="outline"
                 className="w-full sm:w-auto bg-transparent"
               >
                 Browse Courses
-              </Button>
+              </Link>
             </div>
           </div>
         </div>
