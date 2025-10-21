@@ -3,24 +3,28 @@
 import { useState } from "react"
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
-import { Search, Sparkles, Loader2 } from "lucide-react"
-import Link from "next/link"
-import SearchResults from "../components/SearchResults"
+import { Card } from "../../components/ui/card"
+import { Search, Sparkles, Loader2, BookOpen, Users, Award } from "lucide-react"
 
-export default function SearchPage() {
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+
+
+
+
+
+
+export default function Home() {
+  const [error,seterror]=useState(null)
+  const router = useRouter()
   const [query, setQuery] = useState("")
-  const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
 
   const handleSearch = async (e) => {
     e.preventDefault()
     if (!query.trim()) return
 
     setLoading(true)
-    setError("")
-    setResults(null)
-
     try {
       const response = await fetch("/api/extract-skills", {
         method: "POST",
@@ -28,16 +32,23 @@ export default function SearchPage() {
         body: JSON.stringify({ query }),
       })
 
-      if (!response.ok) throw new Error("Search failed")
       const data = await response.json()
-      setResults(data)
-    } catch (err) {
-      setError("Failed to process your search. Please try again.")
-      console.error(err)
+
+      if (data.success) {
+        // Redirect to results with extracted skills
+        const params = new URLSearchParams({
+          learn: JSON.stringify(data.learnSkills),
+          teach: JSON.stringify(data.teachSkills),
+        })
+        router.push(`/results?${params}`)
+      }
+    } catch (error) {
+      console.error("Error:", error)
     } finally {
       setLoading(false)
     }
   }
+
 
   const exampleSearches = [
     "I know Java and want to learn Python",
@@ -101,14 +112,7 @@ export default function SearchPage() {
                   disabled={loading || !query.trim()}
                   className="mr-1 bg-teal-600 hover:bg-teal-500 text-white border-0"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Searching...
-                    </>
-                  ) : (
-                    "Search"
-                  )}
+                  {loading ? "Searching..." : "Search"}
                 </Button>
               </div>
             </div>
@@ -121,11 +125,10 @@ export default function SearchPage() {
             </div>
           )}
 
-          {/* Results */}
-          {results && <SearchResults results={results} />}
+        
 
           {/* Example Searches */}
-          {!results && !loading && (
+         
             <div className="max-w-2xl mx-auto">
               <p className="text-sm text-muted-foreground mb-4 text-center">Try these searches:</p>
               <div className="flex flex-wrap gap-2 justify-center">
@@ -146,7 +149,7 @@ export default function SearchPage() {
                 ))}
               </div>
             </div>
-          )}
+          
         </div>
       </section>
     </div>
