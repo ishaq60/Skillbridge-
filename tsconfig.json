@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/api/find-matches/route.js", "app/api/extract-skills/route.js"  ],
+, "app/api/find-matches/route.js", "app/api/extract-skills/route.js", "components/swaping/user-profile.jsx", "components/swaping/theme-provider.jsx", "components/swaping/search-users.jsx", "components/swaping/profile-editor.jsx", "components/swaping/ml-metrics.jsx", "components/swaping/matches-list.jsx", "app/skillexchange/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]
