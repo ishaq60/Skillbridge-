@@ -11,7 +11,7 @@ const Hero = () => {
           <img
             src="/hero.jpg"
             alt="Hero Banner"
-            className="w-full h-full object-cover opacity-10"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 " />
         </div>
@@ -29,7 +29,7 @@ const Hero = () => {
               thriving learning community.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/skill-swap">
+              <Link href="/skillexchange">
                 <Button
                   size="lg"
                   className="bg-teal-600 hover:bg-teal-500 text-white w-full sm:w-auto"

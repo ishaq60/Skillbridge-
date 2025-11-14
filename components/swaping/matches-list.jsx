@@ -4,6 +4,7 @@ import { Button } from "../ui/button"
 import MLMetrics from "./ml-metrics"
 
 import { MapPin, Globe, Star } from "lucide-react"
+import Link from "next/link"
 
 
 
@@ -57,11 +58,11 @@ export default function MatchesList({ matches, currentUser, matchScores }) {
               {/* Location, Language, Rating */}
               <div className="flex flex-wrap gap-4 pb-3 border-b">
                 <div className="flex items-center gap-2 text-sm">
-                  <MapPin size={16} className="text-indigo-600" />
+                  <MapPin size={16} className="teal" />
                   <span className="text-gray-700">{match.location}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <Globe size={16} className="text-indigo-600" />
+                  <Globe size={16} className="text-teal-600" />
                   <span className="text-gray-700">{match.language}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
@@ -70,14 +71,14 @@ export default function MatchesList({ matches, currentUser, matchScores }) {
                 </div>
               </div>
 
-              {/* {matchData && (
+              {matchData && (
                 <MLMetrics
                   cosineSimilarity={matchData.cosineSimilarity}
                   semanticRelevance={matchData.semanticRelevance}
                   collaborativeScore={matchData.collaborativeScore}
                   score={matchScore || 0}
                 />
-              )} */}
+              )}
 
               {/* Complementary Skills */}
               <div>
@@ -86,7 +87,7 @@ export default function MatchesList({ matches, currentUser, matchScores }) {
                   {match.skillsOffering
                     .filter((skill) => currentUser?.skillsLooking.includes(skill))
                     .map((skill) => (
-                      <Badge key={skill} className="bg-green-500 hover:bg-green-600">
+                      <Badge key={skill} className="bg-teal-500 hover:bg-green-600">
                         {skill}
                       </Badge>
                     ))}
@@ -107,6 +108,7 @@ export default function MatchesList({ matches, currentUser, matchScores }) {
                 </div>
               </div>
 
+              <Link href={"/contact"}>
               <Button
                 className={`w-full mt-4 ${
                   isMutualMatch ? "bg-teal-600 hover:bg-green-700" : "bg-teal-400 hover:bg-indigo-700"
@@ -114,6 +116,7 @@ export default function MatchesList({ matches, currentUser, matchScores }) {
               >
                 {isMutualMatch ? "Connect Now - Perfect Match!" : `Connect with ${match.name.split(" ")[0]}`}
               </Button>
+              </Link>
             </CardContent>
           </Card>
         )

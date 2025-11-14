@@ -1,12 +1,7 @@
 import type { User, AdvancedMatchScore } from "./types"
 import { createUserProfileVector, cosineSimilarity, getSkillEmbedding } from "./skill-embeddings"
 
-/**
- * Advanced ML Matching Model using:
- * 1. Cosine Similarity - Semantic skill matching
- * 2. Collaborative Filtering - Learning from interaction patterns
- * 3. Experience Level Compatibility
- */
+
 
 // Simulated interaction history (in production, this would come from a database)
 const interactionHistory: Record<string, Set<string>> = {}

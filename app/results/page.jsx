@@ -442,10 +442,12 @@ export default function Home() {
                         </div>
                       </div>
 
+                      <Link href={"/contact"} >
                       <Button className="w-full bg-teal-600 hover:bg-teal-700 text-white gap-2">
                         <MessageCircle className="h-4 w-4" />
                         Connect
                       </Button>
+                      </Link>
                     </div>
                   </Card>
                 ))}
