@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"
 import { Card, CardContent, CardHeader } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
@@ -16,6 +18,8 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
   })
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -24,11 +28,52 @@ export default function RegisterPage() {
     })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle registration logic here
-    console.log("Registration attempt:", formData)
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: formData.name, email: formData.email, password: formData.password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log("Registration successful:", data);
+        toast.success("Account created successfully!", {
+          description: "Redirecting to login page...",
+        });
+        setTimeout(() => router.push("/login"), 1500);
+      } else {
+        setError(data.message || "Registration failed");
+        toast.error("Registration failed", {
+          description: data.message || "An error occurred during registration.",
+        });
+      }
+    } catch (error) {
+      setError("An unexpected error occurred");
+      toast.error("Error", {
+        description: "An unexpected error occurred. Please try again.",
+      });
+      console.error("Client-side error during registration:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const router = useRouter();
 
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4">
@@ -174,9 +219,11 @@ export default function RegisterPage() {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-500 text-white h-11">
-              Create Account
+            <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-500 text-white h-11" disabled={loading}>
+              {loading ? "Registering..." : "Create Account"}
             </Button>
+
+            {error && <p className="text-red-500 text-center text-sm mt-4">{error}</p>}
 
             {/* Divider */}
             <div className="relative my-6">

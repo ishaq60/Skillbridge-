@@ -3,6 +3,7 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "../components/theme-provider"
 import { Suspense } from "react"
+import { Toaster } from "sonner"
 import "./globals.css"
 import type { Metadata } from 'next'
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
         >
           <Suspense fallback={null}>{children}</Suspense>
+          <Toaster richColors position="top-center" />
         </ThemeProvider>
         <Analytics />
       </body>

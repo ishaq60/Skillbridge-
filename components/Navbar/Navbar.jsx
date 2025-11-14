@@ -17,9 +17,11 @@ import {
   ChevronRight,
   Sun,
   Moon,
+  LogOut,
 }  from "lucide-react"
 import Link from 'next/link';
 import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -31,6 +33,9 @@ const Navbar = () => {
   const [currentReview, setCurrentReview] = useState(0)
   const [theme, setTheme] = useState("light")
   const [mounted, setMounted] = useState(false)
+  const [user, setUser] = useState(null)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const router = useRouter()
 
   // Handle mounting and initial theme
   useEffect(() => {
@@ -40,6 +45,12 @@ const Navbar = () => {
     const initialTheme = savedTheme === 'system' ? systemTheme : savedTheme
     setTheme(initialTheme)
     document.documentElement.classList.toggle('dark', initialTheme === 'dark')
+    
+    // Get user from localStorage
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
   }, [])
 
   // Handle theme changes
@@ -54,6 +65,14 @@ const Navbar = () => {
       setTheme(newTheme)
       document.documentElement.classList.toggle('dark', newTheme === 'dark')
     }
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setUser(null)
+    setUserMenuOpen(false)
+    router.push('/')
   }
 
   if (!mounted) {
@@ -123,16 +142,46 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <Link href="/login">
-                <Button variant="ghost" size="sm">
-                  Log In
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button size="sm" className="bg-teal-600 hover:bg-teal-500 text-white">
-                  Get Started
-                </Button>
-              </Link>
+              {user ? (
+                // User is logged in
+                <div className="relative group">
+                  <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div className="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-semibold">
+                      {user.username?.[0]?.toUpperCase() || 'U'}
+                    </div>
+                    <span className="text-sm font-medium text-foreground">{user.username}</span>
+                  </button>
+                  
+                  {/* User Dropdown Menu */}
+                  <div className="absolute right-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50">
+                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-semibold text-foreground">{user.username}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                // User is not logged in
+                <>
+                  <Link href="/login">
+                    <Button variant="ghost" size="sm">
+                      Log In
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button size="sm" className="bg-teal-600 hover:bg-teal-500 text-white">
+                      Get Started
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -187,18 +236,38 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2 pt-2">
-                <Link href="/login">
-                  <Button variant="ghost" size="sm" className="w-full">
-                    Log In
+              {user ? (
+                // User is logged in - Mobile
+                <div className="pt-2 border-t border-border space-y-2">
+                  <div className="px-2 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <p className="text-sm font-semibold text-foreground">{user.username}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <Button
+                    onClick={handleLogout}
+                    variant="outline"
+                    size="sm"
+                    className="w-full text-red-600 border-red-200"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
                   </Button>
-                </Link>
-                <Link href="/register">
-                  <Button size="sm" className="w-full bg-teal-600 hover:bg-teal-500 text-white">
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
+                </div>
+              ) : (
+                // User is not logged in - Mobile
+                <div className="flex flex-col gap-2 pt-2">
+                  <Link href="/login">
+                    <Button variant="ghost" size="sm" className="w-full">
+                      Log In
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button size="sm" className="w-full bg-teal-600 hover:bg-teal-500 text-white">
+                      Get Started
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>
