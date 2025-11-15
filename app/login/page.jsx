@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
-
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"
 
 import { Sparkles, Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { Card, CardContent, CardHeader } from "../../components/ui/card"
@@ -13,12 +14,51 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle login logic here
-    console.log("Login attempt:", { email, password })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log("Login successful:", data);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        toast.success("Logged in successfully!", {
+          description: `Welcome back, ${data.user.username}!`,
+        });
+        setTimeout(() => router.push("/"), 1500);
+      } else {
+        setError(data.message || "Login failed");
+        toast.error("Login failed", {
+          description: data.message || "Invalid email or password.",
+        });
+      }
+    } catch (error) {
+      setError("An unexpected error occurred");
+      toast.error("Error", {
+        description: "An unexpected error occurred. Please try again.",
+      });
+      console.error("Client-side error during login:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const router = useRouter();
 
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4">
@@ -102,9 +142,11 @@ export default function LoginPage() {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-500 text-white h-11">
-              Sign In
+            <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-500 text-white h-11" disabled={loading}>
+              {loading ? "Signing In..." : "Sign In"}
             </Button>
+
+            {error && <p className="text-red-500 text-center text-sm mt-4">{error}</p>}
 
             {/* Divider */}
             <div className="relative my-6">
