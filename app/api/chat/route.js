@@ -8,34 +8,88 @@ export async function POST(req) {
     const { message } = await req.json();
     console.log('Received message:', message);
 
-    const intent = await classifyIntent(message);
-    console.log('Classified intent:', intent);
-
+    // Check if user is asking about courses, enrollment, or purchase
+    const askingForCourses = /course|enroll|purchase|buy|pay|price|recommend|suggest|learn/i.test(message);
+    
     let aiReply;
 
-    if (intent === "COURSE_QUERY") {
-      const extractedSkills = await extractSkills(message);
-      const { learn: learnSkills, teach: teachSkills } = extractedSkills;
+    if (askingForCourses) {
+      // User is asking about courses - fetch and recommend available courses
+      const prompt = `Extract any specific skills or topics the user wants to learn from this message: "${message}"
+      
+Return ONLY a JSON with this format:
+{
+  "skills": ["skill1", "skill2", ...]
+}
 
-      const allSkills = [...learnSkills, ...teachSkills];
-      let courses = [];
+If no specific topics are mentioned, return empty array.`;
 
-      if (allSkills.length > 0) {
-        courses = await getCoursesByKeywords(allSkills);
-      }
+      try {
+        const skillsResponse = await generateResponse(prompt);
+        const skillsMatch = skillsResponse.match(/\{[\s\S]*\}/);
+        let skills = [];
+        
+        if (skillsMatch) {
+          const parsed = JSON.parse(skillsMatch[0]);
+          skills = parsed.skills || [];
+        }
 
-      if (courses.length > 0) {
-        const courseList = courses.map(course => `- ${course.title} (${course.category}): ${course.description}`).join('\n');
-        const courseRecommendationPrompt = `The user is looking for courses based on their query: """${message}""". They want to learn: ${learnSkills.join(', ') || 'nothing specific'} and teach: ${teachSkills.join(', ') || 'nothing specific'}. I found the following courses:
-        """${courseList}""".
-        Please generate a friendly, helpful, and educational response recommending these courses. Make sure to mention the course titles and a brief description. Avoid hallucinating and only use the provided course data. If no courses match the user's query, politely ask for more skill details.`;
-        aiReply = await generateResponse(courseRecommendationPrompt);
-      } else {
-        aiReply = "I couldn't find any courses matching your request. Could you please provide more details about the skills or topics you're interested in?";
+        let courses = [];
+        if (skills.length > 0) {
+          courses = await getCoursesByKeywords(skills);
+        }
+
+        // If no courses found from skills, show all available courses
+        if (courses.length === 0) {
+          courses = await getCoursesByKeywords(['development', 'design', 'marketing', 'data']);
+        }
+
+        if (courses.length > 0) {
+          const courseList = courses.map(course => `
+- **${course.title}** 
+  💵 Price: $${course.price}
+  📚 Category: ${course.category}
+  📝 Description: ${course.description}
+  👨‍🏫 Instructor: ${course.instructor?.name || 'Expert Instructor'}
+  ⏱️ Duration: ${course.duration || 'Self-paced'}
+  ⭐ Rating: ${course.rating}/5 (${course.total_reviews} reviews)`).join('\n');
+
+          const coursePrompt = `You are an AI course advisor. The user is interested in courses and asked: "${message}"
+
+Here are our recommended paid courses you can purchase or enroll in:
+${courseList}
+
+Provide:
+1. A friendly response about available courses
+2. Recommend which courses match their interests
+3. Mention the pricing and enrollment details
+4. Encourage them to purchase or enroll
+5. Explain the value and learning outcomes
+
+Be encouraging and helpful!`;
+
+          aiReply = await generateResponse(coursePrompt);
+        } else {
+          aiReply = "Sorry, no courses are currently available. Please check back soon for our latest course offerings!";
+        }
+      } catch (error) {
+        console.error("Error processing course request:", error);
+        aiReply = "I'm having trouble retrieving courses right now. Please try again later.";
       }
     } else {
-      const normalPrompt = `You are a friendly mentor on the SkillSwap platform. Respond to the following message in a helpful, concise, and educational tone: """${message}""".`;
-      aiReply = await generateResponse(normalPrompt);
+      // For general questions, provide educational assistance without course matching
+      const generalPrompt = `You are a friendly AI learning mentor on the SkillSwap platform. Your role is to:
+- Help users with general learning questions and advice
+- Provide educational guidance and tips
+- Answer questions about skill development
+- Be encouraging and supportive
+
+If they ask about courses or enrollment, suggest they ask you about available courses.
+
+User's message: """${message}"""
+
+Respond in a helpful, concise, and friendly tone.`;
+      aiReply = await generateResponse(generalPrompt);
     }
 
     return NextResponse.json({ reply: aiReply }, { status: 200 });
