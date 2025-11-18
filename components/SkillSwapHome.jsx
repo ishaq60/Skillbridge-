@@ -24,8 +24,13 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
+  Zap,
+  Award,
+  Globe,
+  BarChart3,
 } from "lucide-react";
 import { Card } from "./ui/card";
+import Link from "next/link";
 
 export default function SkillSwapHome() {
   const [chatOpen, setChatOpen] = useState(false);
@@ -94,7 +99,7 @@ export default function SkillSwapHome() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-foreground">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-foreground">
       {/* Hero Section */}
      <Hero></Hero>
 
@@ -105,27 +110,32 @@ export default function SkillSwapHome() {
       <TestimonialsSection></TestimonialsSection>
 
       {/* Courses Preview Section */}
-      <section id="courses" className="py-20 sm:py-32 bg-gray-50">
+      <section id="courses" className="py-24 bg-gradient-to-b from-white via-blue-50/40 to-white dark:from-slate-950 dark:via-slate-900/40 dark:to-slate-950">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-16 gap-4">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-2">
-                Featured Courses
+              <div className="inline-block mb-4">
+                <Badge className="bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900 dark:to-cyan-900 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800 font-semibold">FEATURED COURSES</Badge>
+              </div>
+              <h2 className="text-4xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-teal-900 to-blue-900 dark:from-teal-300 dark:to-blue-300 bg-clip-text text-transparent">
+                Learn from Experts
               </h2>
-              <p className="text-muted-foreground">
-                Learn from industry experts
+              <p className="text-lg text-gray-700 dark:text-gray-300">
+                Handpicked premium courses taught by industry professionals
               </p>
             </div>
-            <Button
-              variant="outline"
-              className="border-teal-600/50 text-teal-600 hover:bg-teal-50 bg-transparent"
-            >
-              View All Courses
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            <Link href="/courses">
+              <Button
+                variant="outline"
+                className="border-2 border-teal-300 dark:border-teal-700 text-teal-700 dark:text-teal-300 hover:bg-teal-50 dark:hover:bg-teal-900/20 bg-white dark:bg-slate-800 text-base font-semibold"
+              >
+                View All Courses
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 title: "Full-Stack Web Development",
@@ -135,6 +145,8 @@ export default function SkillSwapHome() {
                 price: "$89.99",
                 image: "/web-development-coding.png",
                 badge: "Bestseller",
+                icon: "🚀",
+                bgGradient: "from-blue-50 to-cyan-50"
               },
               {
                 title: "UI/UX Design Masterclass",
@@ -144,6 +156,8 @@ export default function SkillSwapHome() {
                 price: "$79.99",
                 image: "/ui-ux-design-interface.png",
                 badge: "Popular",
+                icon: "🎨",
+                bgGradient: "from-teal-50 to-emerald-50"
               },
               {
                 title: "Data Science with Python",
@@ -153,49 +167,53 @@ export default function SkillSwapHome() {
                 price: "$99.99",
                 image: "/data-science-machine-learning.jpg",
                 badge: "Bestseller",
+                icon: "📊",
+                bgGradient: "from-violet-50 to-purple-50"
               },
             ].map((course, index) => (
               <Card
                 key={index}
-                className="overflow-hidden bg-white border-border hover:border-teal-600/50 transition-all group cursor-pointer"
+                className={`overflow-hidden bg-gradient-to-br ${course.bgGradient} dark:from-slate-800 dark:to-slate-700 border-2 border-blue-100 dark:border-blue-900/50 hover:border-teal-300 dark:hover:border-teal-700 transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-lg hover:shadow-teal-100/50 dark:hover:shadow-teal-900/50`}
               >
-                <div className="relative h-48 bg-gray-100 overflow-hidden">
+                <div className="relative h-48 bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-700 dark:to-slate-600 overflow-hidden">
                   <img
                     src={course.image || "/placeholder.svg"}
                     alt={course.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                   {course.badge && (
-                    <Badge className="absolute top-3 left-3 bg-teal-600 text-white border-0">
+                    <Badge className="absolute top-4 left-4 bg-gradient-to-r from-teal-600 to-cyan-600 text-white border-0 font-semibold px-3 py-1">
                       {course.badge}
                     </Badge>
                   )}
+                  <div className="absolute bottom-4 right-4 text-2xl">{course.icon}</div>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-semibold mb-2 text-balance">
+                <div className="p-6">
+                  <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-white line-clamp-2">
                     {course.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {course.instructor}
+                  <p className="text-sm text-gray-700 dark:text-gray-400 mb-4 font-medium">
+                    by {course.instructor}
                   </p>
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-3 mb-4 pb-4 border-b border-blue-100 dark:border-blue-900/50">
                     <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-500 text-yellow-500" />
-                      <span className="text-sm font-medium">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
                         {course.rating}
                       </span>
                     </div>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
                       ({course.students.toLocaleString()} students)
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-teal-600">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                       {course.price}
                     </span>
                     <Button
                       size="sm"
-                      className="bg-teal-600 hover:bg-teal-500 text-white"
+                      className="bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 text-white font-semibold"
                     >
                       Enroll Now
                     </Button>
@@ -207,57 +225,106 @@ export default function SkillSwapHome() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-20 sm:py-32 bg-gray-50">
+      {/* Statistics Section */}
+      <section className="py-16 bg-gradient-to-r from-teal-50 via-blue-50 to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { label: "Learning Hours", value: "2.5M+", icon: "⏱️", color: "from-teal-400 to-teal-600" },
+              { label: "Success Rate", value: "98%", icon: "✅", color: "from-green-400 to-emerald-600" },
+              { label: "Global Students", value: "150K+", icon: "🌍", color: "from-blue-400 to-cyan-600" },
+              { label: "Expert Instructors", value: "500+", icon: "👨‍🏫", color: "from-purple-400 to-violet-600" },
+            ].map((stat, index) => (
+              <div key={index} className="text-center p-6 rounded-2xl bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-blue-900/50 hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-lg dark:hover:shadow-teal-900/50 transition-all duration-300 group">
+                <div className="text-5xl mb-3 transform group-hover:scale-110 transition-transform">{stat.icon}</div>
+                <div className={`text-4xl font-bold bg-gradient-to-br ${stat.color} bg-clip-text text-transparent mb-2`}>{stat.value}</div>
+                <p className="text-gray-700 dark:text-gray-300 font-semibold">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us - Enhanced */}
+      <section className="py-24 bg-gradient-to-b from-white via-teal-50/30 to-white dark:from-slate-950 dark:via-slate-900/30 dark:to-slate-950">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Why Choose Skillbridge?
+              <Badge className="inline-block mb-4 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900 dark:to-cyan-900 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800 font-semibold">WHY SKILLBRIDGE</Badge>
+              <h2 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-900 to-cyan-900 dark:from-teal-300 dark:to-cyan-300 bg-clip-text text-transparent">
+                The Complete Learning Ecosystem
               </h2>
-              <p className="text-lg text-muted-foreground">
-                The most comprehensive peer learning platform
+              <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto font-medium">
+                Everything you need to master new skills, connect with peers, and advance your career
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-8">
               {[
                 {
-                  title: "Learn for Free",
+                  title: "Learn for Free or Pay for Expert Training",
                   description:
-                    "Exchange skills with peers at no cost. Only pay for premium courses when you want expert instruction.",
+                    "Exchange skills with peers at zero cost. When you need structured learning from professionals, choose from our premium courses.",
+                  icon: <Zap className="w-6 h-6" />,
+                  color: "from-yellow-50 to-orange-50 dark:from-slate-800 dark:to-slate-700",
+                  border: "border-yellow-200 dark:border-yellow-900/50",
+                  iconBg: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400"
                 },
                 {
-                  title: "AI-Powered Matching",
+                  title: "AI-Powered Smart Matching",
                   description:
-                    "Our intelligent system finds the perfect learning partners based on your skills, goals, and availability.",
+                    "Our intelligent system finds the perfect learning partners based on your skills, goals, availability, and learning style.",
+                  icon: <Sparkles className="w-6 h-6" />,
+                  color: "from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-700",
+                  border: "border-purple-200 dark:border-purple-900/50",
+                  iconBg: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400"
                 },
                 {
-                  title: "Verified Instructors",
+                  title: "Verified Industry Experts",
                   description:
-                    "All course instructors are vetted professionals with proven expertise in their fields.",
+                    "All instructors are thoroughly vetted with proven expertise and real-world experience in their fields.",
+                  icon: <Award className="w-6 h-6" />,
+                  color: "from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700",
+                  border: "border-blue-200 dark:border-blue-900/50",
+                  iconBg: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
                 },
                 {
-                  title: "Flexible Learning",
+                  title: "Learn at Your Own Pace",
                   description:
-                    "Learn at your own pace with on-demand courses or schedule live sessions with peers.",
+                    "On-demand video courses, live sessions with peers, or structured programs. Choose how you want to learn.",
+                  icon: <TrendingUp className="w-6 h-6" />,
+                  color: "from-green-50 to-emerald-50 dark:from-slate-800 dark:to-slate-700",
+                  border: "border-green-200 dark:border-green-900/50",
+                  iconBg: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
                 },
                 {
-                  title: "Secure Payments",
+                  title: "Global Community Support",
                   description:
-                    "Industry-standard encryption and secure payment processing for all transactions.",
+                    "Join thousands of learners worldwide. Get help, share experiences, and grow together in our thriving community.",
+                  icon: <Globe className="w-6 h-6" />,
+                  color: "from-cyan-50 to-teal-50 dark:from-slate-800 dark:to-slate-700",
+                  border: "border-cyan-200 dark:border-cyan-900/50",
+                  iconBg: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400"
                 },
                 {
-                  title: "Community Support",
+                  title: "Track Your Progress",
                   description:
-                    "Join a thriving community of learners and get help whenever you need it.",
+                    "Detailed analytics, certificates of completion, and personalized learning recommendations to keep you motivated.",
+                  icon: <BarChart3 className="w-6 h-6" />,
+                  color: "from-rose-50 to-red-50 dark:from-slate-800 dark:to-slate-700",
+                  border: "border-rose-200 dark:border-rose-900/50",
+                  iconBg: "bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400"
                 },
               ].map((item, index) => (
-                <div key={index} className="flex gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
+                <div key={index} className={`flex gap-4 p-6 rounded-2xl bg-gradient-to-br ${item.color} border-2 ${item.border} hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-lg dark:hover:shadow-teal-900/50 transition-all duration-300 group`}>
+                  <div className="flex-shrink-0">
+                    <div className={`w-12 h-12 ${item.iconBg} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                      {item.icon}
+                    </div>
+                  </div>
                   <div>
-                    <h3 className="font-semibold mb-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                    <p className="text-gray-700 dark:text-gray-400 leading-relaxed font-medium">
                       {item.description}
                     </p>
                   </div>
@@ -268,31 +335,36 @@ export default function SkillSwapHome() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 sm:py-32 bg-gradient-to-b from-teal-50 to-transparent">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="max-w-4xl mx-auto p-8 sm:p-12 bg-white border-teal-200">
+      {/* CTA Section - Enhanced */}
+      <section className="py-24 bg-gradient-to-br from-blue-50 via-teal-50 to-cyan-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-40 dark:opacity-20">
+          <div className="absolute top-10 right-20 w-40 h-40 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl"></div>
+          <div className="absolute bottom-10 left-20 w-40 h-40 bg-cyan-200 dark:bg-cyan-900 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Card className="max-w-5xl mx-auto p-8 sm:p-16 bg-white dark:bg-slate-800 border-2 border-teal-200 dark:border-teal-800 shadow-xl">
             <div className="text-center">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Ready to Start Your Learning Journey?
+              <Badge className="inline-block mb-4 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900 dark:to-cyan-900 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800 font-semibold">GET STARTED TODAY</Badge>
+              <h2 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-teal-900 to-blue-900 dark:from-teal-300 dark:to-blue-300 bg-clip-text text-transparent">
+                Start Your Learning Journey
               </h2>
-              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Join thousands of learners exchanging skills and growing
-                together. Sign up now and get matched with your first learning
-                partner.
+              <p className="text-xl text-gray-700 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+                Join over 150,000 learners who are exchanging skills, building connections, and growing with Skillbridge. 
+                No credit card required to start.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto mb-6">
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-white border-border"
+                  className="bg-gray-50 dark:bg-slate-700 border-2 border-blue-200 dark:border-blue-900/50 focus:border-teal-600 dark:focus:border-teal-600 text-base py-3 px-4 rounded-lg text-gray-900 dark:text-white dark:placeholder-gray-400"
                 />
-                <Button className="bg-teal-600 hover:bg-teal-500 text-white whitespace-nowrap">
+                <Button size="lg" className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold whitespace-nowrap py-6 px-8 shadow-lg hover:shadow-xl transition-all">
                   Get Started Free
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-4">
-                No credit card required. Start learning in minutes.
+              <p className="text-sm text-gray-700 dark:text-gray-400 font-medium">
+                ✓ No credit card required  •  ✓ Start learning in minutes  •  ✓ Join our community today
               </p>
             </div>
           </Card>
@@ -302,31 +374,34 @@ export default function SkillSwapHome() {
       {/* Floating Chat Button */}
       <button
         onClick={() => setChatOpen(!chatOpen)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-teal-600 hover:bg-teal-500 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 z-50"
+        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 dark:from-teal-500 dark:to-teal-600 dark:hover:from-teal-600 dark:hover:to-teal-700 text-white rounded-full shadow-xl flex items-center justify-center transition-all hover:scale-110 z-40 font-semibold group"
         aria-label="Open education helpline chat"
       >
-        <MessageSquare className="w-6 h-6" />
+        <div className="relative">
+          <MessageSquare className="w-7 h-7" />
+          <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold">!</span>
+        </div>
       </button>
 
       {/* Chatbox Component */}
       {chatOpen && (
-        <div className="fixed bottom-24 right-6 w-80 sm:w-96 bg-white rounded-lg shadow-2xl border border-border z-50 flex flex-col max-h-[500px]">
+        <div className="fixed bottom-28 right-6 w-96 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border-2 border-teal-100 dark:border-teal-900/50 z-40 flex flex-col max-h-[600px] overflow-hidden">
           {/* Chat Header */}
-          <div className="bg-teal-600 text-white p-4 rounded-t-lg flex items-center justify-between">
+          <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white p-5 rounded-t-2xl flex items-center justify-between">
             <div>
-              <h3 className="font-semibold">Education Helpline</h3>
-              <p className="text-xs text-teal-100">We're here to help!</p>
+              <h3 className="font-bold text-lg">Education Helpline</h3>
+              <p className="text-sm text-teal-100">Always here to help you learn</p>
             </div>
             <button
               onClick={() => setChatOpen(false)}
-              className="hover:bg-teal-500 p-1 rounded"
+              className="hover:bg-teal-500 p-1 rounded-full transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-50">
+          <div className="flex-1 p-5 space-y-4 overflow-y-auto bg-gray-50 dark:bg-slate-900">
             {chatMessages.map((message, index) => (
               <div
                 key={index}
@@ -335,20 +410,20 @@ export default function SkillSwapHome() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-lg ${
+                  className={`max-w-[80%] p-3 rounded-xl text-sm font-medium ${
                     message.type === "user"
-                      ? "bg-teal-600 text-white rounded-br-none"
-                      : "bg-white border border-border rounded-bl-none"
+                      ? "bg-gradient-to-br from-teal-600 to-teal-500 text-white rounded-br-none"
+                      : "bg-white dark:bg-slate-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-bl-none"
                   }`}
                 >
-                  <p className="text-sm">{message.text}</p>
+                  <p className="leading-relaxed">{message.text}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Chat Input */}
-          <div className="p-4 border-t border-border bg-white rounded-b-lg">
+          <div className="p-5 border-t-2 border-gray-100 dark:border-gray-700 bg-white dark:bg-slate-800 rounded-b-2xl">
             <div className="flex gap-2">
               <Input
                 type="text"
@@ -356,12 +431,12 @@ export default function SkillSwapHome() {
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                className="flex-1 bg-white border-border"
+                className="flex-1 bg-gray-50 dark:bg-slate-700 border-2 border-gray-200 dark:border-gray-600 focus:border-teal-600 py-2 px-4 rounded-lg text-gray-900 dark:text-white dark:placeholder-gray-400"
               />
               <Button
                 onClick={handleSendMessage}
                 size="sm"
-                className="bg-teal-600 hover:bg-teal-500 text-white px-3"
+                className="bg-teal-600 hover:bg-teal-700 text-white px-4 rounded-lg"
               >
                 <Send className="w-4 h-4" />
               </Button>
