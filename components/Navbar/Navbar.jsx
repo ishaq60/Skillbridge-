@@ -105,6 +105,11 @@ const Navbar = () => {
               <a href="#reviews" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Reviews
               </a>
+              {user && (
+                <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Dashboard
+                </Link>
+              )}
               
               {/* Theme Switcher */}
               <div className="relative group">
@@ -205,6 +210,11 @@ const Navbar = () => {
               <a href="#reviews" className="block text-sm text-muted-foreground hover:text-foreground">
                 Reviews
               </a>
+              {user && (
+                <Link href="/dashboard" className="block text-sm text-muted-foreground hover:text-foreground">
+                  Dashboard
+                </Link>
+              )}
               
               {/* Mobile Theme Switcher */}
               <div className="pt-2">
