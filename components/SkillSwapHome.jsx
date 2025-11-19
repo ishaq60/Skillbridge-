@@ -454,6 +454,22 @@ export default function SkillSwapHome() {
             )}
           </div>
 
+          {/* Prompt Suggestions */}
+          <div className="p-5 border-b-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-slate-900">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Try asking:</p>
+            <div className="flex gap-2 flex-wrap">
+              {["What courses do you have for JavaScript?", "How can I start learning React?", "What are the best skills for web development?"].map((prompt, index) => (
+                <button
+                  key={index}
+                  onClick={() => setChatInput(prompt)}
+                  className="bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-lg text-sm hover:bg-teal-200 dark:hover:bg-teal-800"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Chat Input */}
           <div className="p-5 border-t-2 border-gray-100 dark:border-gray-700 bg-white dark:bg-slate-800 rounded-b-2xl">
             <div className="flex gap-2">
