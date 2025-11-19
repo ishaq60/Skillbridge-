@@ -37,10 +37,11 @@ export default function SkillSwapHome() {
   const [chatMessages, setChatMessages] = useState([
     {
       type: "bot",
-      text: "Hello! Welcome to Skillbridge Education Helpline. How can I assist you today?",
+      text: "Hello! 👋 Welcome to Skillbridge Education Helpline. I'm your AI learning assistant. I can help you with:\n\n• Course recommendations and enrollment\n• Learning tips and educational guidance\n• Skill development advice\n\nJust ask me anything!",
     },
   ]);
   const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
   const [currentReview, setCurrentReview] = useState(0);
 
   const reviews = [
@@ -74,19 +75,39 @@ export default function SkillSwapHome() {
     },
   ];
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (chatInput.trim()) {
-      setChatMessages([...chatMessages, { type: "user", text: chatInput }]);
+      const userMessage = { type: "user", text: chatInput };
+      setChatMessages((prev) => [...prev, userMessage]);
       setChatInput("");
-      setTimeout(() => {
-        setChatMessages((prev) => [
-          ...prev,
-          {
-            type: "bot",
-            text: "Thank you for your message! Our education support team will assist you shortly. You can also browse our Help Center for instant answers.",
+      setChatLoading(true);
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]);
-      }, 1000);
+          body: JSON.stringify({ message: chatInput }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to get response');
+        }
+
+        const data = await response.json();
+        const botMessage = { type: "bot", text: data.reply };
+        setChatMessages((prev) => [...prev, botMessage]);
+      } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = {
+          type: "bot",
+          text: "❌ Sorry, I encountered an error. Please try again or visit our Help Center for instant answers.",
+        };
+        setChatMessages((prev) => [...prev, errorMessage]);
+      } finally {
+        setChatLoading(false);
+      }
     }
   };
 
@@ -410,7 +431,7 @@ export default function SkillSwapHome() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-xl text-sm font-medium ${
+                  className={`max-w-[80%] p-3 rounded-xl text-sm font-medium whitespace-pre-wrap ${
                     message.type === "user"
                       ? "bg-gradient-to-br from-teal-600 to-teal-500 text-white rounded-br-none"
                       : "bg-white dark:bg-slate-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-bl-none"
@@ -420,6 +441,33 @@ export default function SkillSwapHome() {
                 </div>
               </div>
             ))}
+            {chatLoading && (
+              <div className="flex justify-start">
+                <div className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 p-3 rounded-xl rounded-bl-none">
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Prompt Suggestions */}
+          <div className="p-5 border-b-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-slate-900">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Try asking:</p>
+            <div className="flex gap-2 flex-wrap">
+              {["What courses do you have for JavaScript?", "How can I start learning React?", "What are the best skills for web development?"].map((prompt, index) => (
+                <button
+                  key={index}
+                  onClick={() => setChatInput(prompt)}
+                  className="bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 px-3 py-1 rounded-lg text-sm hover:bg-teal-200 dark:hover:bg-teal-800"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Chat Input */}
@@ -427,16 +475,18 @@ export default function SkillSwapHome() {
             <div className="flex gap-2">
               <Input
                 type="text"
-                placeholder="Type your message..."
+                placeholder="Ask about courses, learning tips..."
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                className="flex-1 bg-gray-50 dark:bg-slate-700 border-2 border-gray-200 dark:border-gray-600 focus:border-teal-600 py-2 px-4 rounded-lg text-gray-900 dark:text-white dark:placeholder-gray-400"
+                disabled={chatLoading}
+                className="flex-1 bg-gray-50 dark:bg-slate-700 border-2 border-gray-200 dark:border-gray-600 focus:border-teal-600 py-2 px-4 rounded-lg text-gray-900 dark:text-white dark:placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <Button
                 onClick={handleSendMessage}
+                disabled={chatLoading}
                 size="sm"
-                className="bg-teal-600 hover:bg-teal-700 text-white px-4 rounded-lg"
+                className="bg-teal-600 hover:bg-teal-700 text-white px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </Button>
